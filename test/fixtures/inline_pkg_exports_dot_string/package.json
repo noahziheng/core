@@ -1,0 +1,8 @@
+{
+  "name": "inline-pkg-exports-dot-string",
+  "version": "1.0.0",
+  "main": "./fallback-main.js",
+  "exports": {
+    ".": "./resolved/index.js"
+  }
+}

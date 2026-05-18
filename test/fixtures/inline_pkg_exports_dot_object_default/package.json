@@ -1,0 +1,11 @@
+{
+  "name": "inline-pkg-exports-dot-object-default",
+  "version": "1.0.0",
+  "main": "./fallback-main.js",
+  "exports": {
+    ".": {
+      "types": "./resolved/index.d.ts",
+      "default": "./resolved/index.js"
+    }
+  }
+}

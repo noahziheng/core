@@ -1,0 +1,10 @@
+{
+  "name": "inline-pkg-exports-dot-object-require",
+  "version": "1.0.0",
+  "main": "./fallback-main.js",
+  "exports": {
+    ".": {
+      "require": "./resolved/cjs.js"
+    }
+  }
+}
