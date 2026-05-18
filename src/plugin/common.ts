@@ -62,6 +62,23 @@ export function getPackagePath(
   return path.dirname(require.resolve(packageName, opts));
 }
 
+function resolvePackageExportsDotEntry(dotExport: unknown): string {
+  if (typeof dotExport === "string") {
+    return dotExport;
+  }
+  if (!dotExport || typeof dotExport !== "object") {
+    return "";
+  }
+  const o = dotExport as Record<string, unknown>;
+  for (const key of ["require", "default", "import"] as const) {
+    const v = o[key];
+    if (typeof v === "string") {
+      return v;
+    }
+  }
+  return "";
+}
+
 export async function getInlinePackageEntryPath(
   packagePath: string,
 ): Promise<string> {
@@ -72,8 +89,8 @@ export async function getInlinePackageEntryPath(
       throw new Error(`inline package multi exports is not supported`);
     } else if (typeof pkgJson.exports === "string") {
       entryFilePath = pkgJson.exports;
-    } else if (pkgJson.exports?.["."]) {
-      entryFilePath = pkgJson.exports["."].require;
+    } else if (pkgJson.exports?.["."] != null) {
+      entryFilePath = resolvePackageExportsDotEntry(pkgJson.exports["."]);
     }
   }
   if (!entryFilePath && pkgJson.main) {

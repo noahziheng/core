@@ -1,0 +1,7 @@
+{
+  "name": "@artus/test-inline-exports-dot-string",
+  "exports": {
+    ".": "./actual/entry.js"
+  },
+  "main": "./wrong/wrong.js"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@artus/test-inline-exports-default-only",
+  "exports": {
+    ".": {
+      "default": "./bundle/plugin.js"
+    }
+  }
+}
