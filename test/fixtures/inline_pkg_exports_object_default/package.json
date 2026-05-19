@@ -1,0 +1,9 @@
+{
+  "name": "inline-pkg-exports-object-default",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "default": "./dist/entry.js"
+    }
+  }
+}
