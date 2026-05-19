@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "exports": {
     ".": {
-      "default": "./dist/entry.js"
+      "default": "./out/entry.js"
     }
   }
 }

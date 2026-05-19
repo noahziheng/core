@@ -10,7 +10,7 @@ describe('test/plugin-common.test.ts', () => {
         'fixtures/inline_pkg_exports_string_dot',
       );
       const resolved = await getInlinePackageEntryPath(pkgRoot);
-      expect(resolved).toBe(path.join(pkgRoot, 'lib'));
+      expect(resolved).toBe(path.join(pkgRoot, 'entrypoint'));
     });
 
     it('resolves dirname when exports["."] is object with default but no require', async () => {
@@ -19,7 +19,7 @@ describe('test/plugin-common.test.ts', () => {
         'fixtures/inline_pkg_exports_object_default',
       );
       const resolved = await getInlinePackageEntryPath(pkgRoot);
-      expect(resolved).toBe(path.join(pkgRoot, 'dist'));
+      expect(resolved).toBe(path.join(pkgRoot, 'out'));
     });
   });
 });

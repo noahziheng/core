@@ -2,6 +2,6 @@
   "name": "inline-pkg-exports-string-dot",
   "version": "1.0.0",
   "exports": {
-    ".": "./lib/index.js"
+    ".": "./entrypoint/index.js"
   }
 }
