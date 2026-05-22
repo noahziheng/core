@@ -1,0 +1,7 @@
+{
+  "name": "fixture-inline-exports-dot-string",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./entry.js"
+  }
+}

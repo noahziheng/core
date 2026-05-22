@@ -73,7 +73,17 @@ export async function getInlinePackageEntryPath(
     } else if (typeof pkgJson.exports === "string") {
       entryFilePath = pkgJson.exports;
     } else if (pkgJson.exports?.["."]) {
-      entryFilePath = pkgJson.exports["."].require;
+      const dotExport = pkgJson.exports["."];
+      if (typeof dotExport === "string") {
+        entryFilePath = dotExport;
+      } else if (dotExport && typeof dotExport === "object") {
+        // "require" is preferred for CJS; many packages only expose "default" (see Node conditional exports).
+        entryFilePath =
+          dotExport.require ??
+          dotExport.node ??
+          dotExport.default ??
+          dotExport.import;
+      }
     }
   }
   if (!entryFilePath && pkgJson.main) {
