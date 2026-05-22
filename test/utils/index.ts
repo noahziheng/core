@@ -59,6 +59,6 @@ export function formatManifestForWindowsTest(manifest: Manifest) {
     };
   }
   manifest.refMap = newRefMap;
-  manifest.extraPluginConfig = handlePluginConfig(manifest.extraPluginConfig);
+  manifest.extraPluginConfig = handlePluginConfig(manifest.extraPluginConfig ?? {});
   return manifest;
 }
