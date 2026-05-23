@@ -1,0 +1,9 @@
+{
+  "name": "inline-pkg-exports-dot-object-require",
+  "exports": {
+    ".": {
+      "require": "./cjs/index.cjs",
+      "import": "./esm/index.mjs"
+    }
+  }
+}

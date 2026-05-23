@@ -1,0 +1,6 @@
+{
+  "name": "inline-pkg-exports-dot-string",
+  "exports": {
+    ".": "./dist/plugin.js"
+  }
+}

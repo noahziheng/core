@@ -1,0 +1,9 @@
+{
+  "name": "inline-pkg-exports-dot-object-default",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  }
+}
