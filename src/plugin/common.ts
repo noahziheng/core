@@ -73,7 +73,20 @@ export async function getInlinePackageEntryPath(
     } else if (typeof pkgJson.exports === "string") {
       entryFilePath = pkgJson.exports;
     } else if (pkgJson.exports?.["."]) {
-      entryFilePath = pkgJson.exports["."].require;
+      const dotExport = pkgJson.exports["."];
+      if (typeof dotExport === "string") {
+        entryFilePath = dotExport;
+      } else if (
+        dotExport &&
+        typeof dotExport === "object" &&
+        !Array.isArray(dotExport)
+      ) {
+        const pick = (v: unknown) => (typeof v === "string" ? v : undefined);
+        entryFilePath =
+          pick(dotExport.require) ??
+          pick(dotExport.default) ??
+          pick(dotExport.import);
+      }
     }
   }
   if (!entryFilePath && pkgJson.main) {

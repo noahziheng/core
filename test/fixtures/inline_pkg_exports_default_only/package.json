@@ -1,0 +1,8 @@
+{
+  "name": "inline-pkg-exports-default-only",
+  "exports": {
+    ".": {
+      "default": "./pkg-dist/out.js"
+    }
+  }
+}

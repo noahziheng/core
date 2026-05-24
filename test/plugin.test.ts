@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
@@ -175,6 +176,20 @@ describe('test/plugin.test.ts', () => {
         expect(plugin.enable).toBeTruthy();
       });
       expect(pluginList.map(plugin => plugin.name)).toStrictEqual(['plugin-c', 'plugin-d']);
+    });
+  });
+
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve exports["."] when it is a string (no main)', async () => {
+      const pkgRoot = path.resolve(__dirname, 'fixtures/inline_pkg_exports_dot_string');
+      const resolved = await getInlinePackageEntryPath(pkgRoot);
+      expect(resolved).toBe(path.join(pkgRoot, 'nested'));
+    });
+
+    it('should resolve exports["."] object using default when require is absent', async () => {
+      const pkgRoot = path.resolve(__dirname, 'fixtures/inline_pkg_exports_default_only');
+      const resolved = await getInlinePackageEntryPath(pkgRoot);
+      expect(resolved).toBe(path.join(pkgRoot, 'pkg-dist'));
     });
   });
 });
