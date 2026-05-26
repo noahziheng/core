@@ -73,7 +73,16 @@ export async function getInlinePackageEntryPath(
     } else if (typeof pkgJson.exports === "string") {
       entryFilePath = pkgJson.exports;
     } else if (pkgJson.exports?.["."]) {
-      entryFilePath = pkgJson.exports["."].require;
+      const dotExport = pkgJson.exports["."];
+      if (typeof dotExport === "string") {
+        entryFilePath = dotExport;
+      } else if (dotExport && typeof dotExport === "object" && !Array.isArray(dotExport)) {
+        const cond = dotExport as Record<string, unknown>;
+        const pick = (k: string) => (typeof cond[k] === "string" ? (cond[k] as string) : "");
+        // Prefer CJS-compatible conditions; avoid "types" (points at .d.ts, not runtime).
+        entryFilePath =
+          pick("require") || pick("node") || pick("default") || pick("import") || "";
+      }
     }
   }
   if (!entryFilePath && pkgJson.main) {

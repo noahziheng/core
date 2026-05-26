@@ -1,0 +1,8 @@
+{
+  "name": "inline-pkg-exports-dot-default",
+  "exports": {
+    ".": {
+      "default": "./pkg-runtime/index.js"
+    }
+  }
+}

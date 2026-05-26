@@ -1,0 +1,9 @@
+{
+  "name": "inline-pkg-exports-dot-require",
+  "exports": {
+    ".": {
+      "require": "./pkg-cjs/entry.js",
+      "import": "./pkg-esm/entry.mjs"
+    }
+  }
+}
