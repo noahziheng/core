@@ -1,0 +1,11 @@
+{
+  "name": "inline-exports-dot-object",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "require": "./from-require/entry.js",
+      "import": "./from-import/entry.mjs"
+    }
+  },
+  "main": "./from-main/entry.js"
+}

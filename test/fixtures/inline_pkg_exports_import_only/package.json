@@ -1,0 +1,10 @@
+{
+  "name": "inline-exports-import-only",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "import": "./from-import-only/entry.mjs"
+    }
+  },
+  "main": "./from-main/entry.js"
+}

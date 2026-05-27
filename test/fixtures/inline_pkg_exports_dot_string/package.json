@@ -1,0 +1,8 @@
+{
+  "name": "inline-exports-dot-string",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./from-exports/entry.js"
+  },
+  "main": "./from-main/entry.js"
+}

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
@@ -175,6 +176,26 @@ describe('test/plugin.test.ts', () => {
         expect(plugin.enable).toBeTruthy();
       });
       expect(pluginList.map(plugin => plugin.name)).toStrictEqual(['plugin-c', 'plugin-d']);
+    });
+  });
+
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve exports["."] when it is a string', async () => {
+      const root = path.resolve(__dirname, 'fixtures/inline_pkg_exports_dot_string');
+      const resolved = await getInlinePackageEntryPath(root);
+      expect(resolved).toBe(path.resolve(root, 'from-exports'));
+    });
+
+    it('should resolve exports["."] when it is a conditions object', async () => {
+      const root = path.resolve(__dirname, 'fixtures/inline_pkg_exports_dot_object_require');
+      const resolved = await getInlinePackageEntryPath(root);
+      expect(resolved).toBe(path.resolve(root, 'from-require'));
+    });
+
+    it('should fall back to import when require is absent', async () => {
+      const root = path.resolve(__dirname, 'fixtures/inline_pkg_exports_import_only');
+      const resolved = await getInlinePackageEntryPath(root);
+      expect(resolved).toBe(path.resolve(root, 'from-import-only'));
     });
   });
 });
