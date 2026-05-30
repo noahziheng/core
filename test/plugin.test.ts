@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
@@ -175,6 +176,26 @@ describe('test/plugin.test.ts', () => {
         expect(plugin.enable).toBeTruthy();
       });
       expect(pluginList.map(plugin => plugin.name)).toStrictEqual(['plugin-c', 'plugin-d']);
+    });
+  });
+
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve entry from object exports with string subpath', async () => {
+      const entryPath = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_c`),
+      );
+      expect(entryPath).toBe(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_c/mock_lib`),
+      );
+    });
+
+    it('should resolve entry from top-level string exports', async () => {
+      const entryPath = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_b`),
+      );
+      expect(entryPath).toBe(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_b/mock_lib`),
+      );
     });
   });
 });
