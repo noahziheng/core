@@ -1,10 +1,26 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
 describe('test/plugin.test.ts', () => {
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve string exports and dot export string', async () => {
+      const cases = [
+        { plugin: 'plugin_with_entry_a', via: 'main' },
+        { plugin: 'plugin_with_entry_b', via: 'exports string' },
+        { plugin: 'plugin_with_entry_c', via: 'exports dot string' },
+      ];
+      for (const { plugin } of cases) {
+        const packagePath = path.resolve(__dirname, pluginPrefix, plugin);
+        const entryPath = await getInlinePackageEntryPath(packagePath);
+        expect(entryPath).toBe(path.resolve(packagePath, 'mock_lib'));
+      }
+    });
+  });
+
   describe('app with config', () => {
     it('should load plugin with dep order', async () => {
       const mockPluginConfig = {
