@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
@@ -175,6 +176,23 @@ describe('test/plugin.test.ts', () => {
         expect(plugin.enable).toBeTruthy();
       });
       expect(pluginList.map(plugin => plugin.name)).toStrictEqual(['plugin-c', 'plugin-d']);
+    });
+  });
+
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve entry path from package exports', async () => {
+      const base = path.resolve(__dirname, pluginPrefix);
+      const cases = [
+        ['plugin_with_entry_a', 'mock_lib'],
+        ['plugin_with_entry_b', 'mock_lib'],
+        ['plugin_with_entry_c', 'mock_lib'],
+      ] as const;
+
+      for (const [fixture, expectedDir] of cases) {
+        const packagePath = path.join(base, fixture);
+        const entryPath = await getInlinePackageEntryPath(packagePath);
+        expect(entryPath).toBe(path.join(packagePath, expectedDir));
+      }
     });
   });
 });
