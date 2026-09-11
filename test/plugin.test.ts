@@ -1,10 +1,38 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
 describe('test/plugin.test.ts', () => {
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve string exports and dot export paths', async () => {
+      const entryB = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_b`),
+      );
+      expect(entryB).toBe(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_b/mock_lib`),
+      );
+
+      const entryC = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_c`),
+      );
+      expect(entryC).toBe(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_c/mock_lib`),
+      );
+    });
+
+    it('should fall back to main when exports is missing', async () => {
+      const entryA = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_a`),
+      );
+      expect(entryA).toBe(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_a/mock_lib`),
+      );
+    });
+  });
+
   describe('app with config', () => {
     it('should load plugin with dep order', async () => {
       const mockPluginConfig = {
