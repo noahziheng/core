@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import path from 'path';
 import { Logger, Plugin, PluginFactory } from '../src';
+import { getInlinePackageEntryPath } from '../src/plugin/common';
 
 const pluginPrefix = 'fixtures/plugins';
 
@@ -175,6 +176,27 @@ describe('test/plugin.test.ts', () => {
         expect(plugin.enable).toBeTruthy();
       });
       expect(pluginList.map(plugin => plugin.name)).toStrictEqual(['plugin-c', 'plugin-d']);
+    });
+  });
+
+  describe('getInlinePackageEntryPath', () => {
+    it('should resolve top-level string exports', async () => {
+      const result = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_b`),
+      );
+      expect(result).toBe(path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_b/mock_lib`));
+    });
+
+    it('should resolve object exports when dot export is a string', async () => {
+      const result = await getInlinePackageEntryPath(
+        path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_c`),
+      );
+      expect(result).toBe(path.resolve(__dirname, `${pluginPrefix}/plugin_with_entry_c/mock_lib`));
+    });
+
+    it('should resolve object exports when dot export has default condition', async () => {
+      const result = await getInlinePackageEntryPath(path.resolve(__dirname, '..'));
+      expect(result).toBe(path.resolve(__dirname, '../lib'));
     });
   });
 });
