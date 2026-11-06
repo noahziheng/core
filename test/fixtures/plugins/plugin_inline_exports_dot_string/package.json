@@ -1,0 +1,7 @@
+{
+  "name": "plugin-inline-exports-dot-string",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./index.js"
+  }
+}

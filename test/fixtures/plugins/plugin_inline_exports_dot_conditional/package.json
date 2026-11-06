@@ -1,0 +1,10 @@
+{
+  "name": "plugin-inline-exports-dot-conditional",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "require": "./out.cjs",
+      "import": "./out.mjs"
+    }
+  }
+}
