@@ -73,7 +73,20 @@ export async function getInlinePackageEntryPath(
     } else if (typeof pkgJson.exports === "string") {
       entryFilePath = pkgJson.exports;
     } else if (pkgJson.exports?.["."]) {
-      entryFilePath = pkgJson.exports["."].require;
+      const dotExport = pkgJson.exports["."];
+      if (typeof dotExport === "string") {
+        entryFilePath = dotExport;
+      } else if (dotExport && typeof dotExport === "object") {
+        // Conditional exports object: prefer CJS entry for require()-based resolution
+        entryFilePath =
+          typeof dotExport.require === "string"
+            ? dotExport.require
+            : typeof dotExport.default === "string"
+              ? dotExport.default
+              : typeof dotExport.import === "string"
+                ? dotExport.import
+                : "";
+      }
     }
   }
   if (!entryFilePath && pkgJson.main) {
